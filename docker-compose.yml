@@ -1,0 +1,10 @@
+version: '3.7'
+
+services:
+  leo-iot-web:
+    depends_on: [ leo-iot-db, leo-iot-server ]
+    image: ghcr.io/leo-iot/leo-box-showcase/app
+    build: leo-iot-web
+    container_name: leo-iot-web
+    ports:
+      - "80:80"
