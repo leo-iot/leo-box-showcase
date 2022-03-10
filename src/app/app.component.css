@@ -1,0 +1,17 @@
+.app-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+}
+
+.value-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 3vw;
+
+  width: 80%;
+}
