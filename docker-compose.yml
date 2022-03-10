@@ -7,4 +7,4 @@ services:
     build: leo-iot-web
     container_name: leo-iot-web
     ports:
-      - "80:80"
+      - "70:80"
