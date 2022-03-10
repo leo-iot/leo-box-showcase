@@ -20,7 +20,7 @@ RUN npm run build
 FROM nginx:stable-alpine
 
 #Serving the production build with nginx
-COPY --from=build-stage /app/dist/leo-iot-showcase /usr/share/nginx/html
+COPY --from=build-stage /app/dist/leo-box-showcase /usr/share/nginx/html
 
 #Applying custom nginx config
 COPY nginx.conf /etc/nginx/conf.d/default.conf
