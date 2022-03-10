@@ -1,5 +1,5 @@
 ##STAGE 0, building sources
-FROM node:dubnium as build-stage
+FROM node:16 as build-stage
 
 #setting workdir
 WORKDIR /app
@@ -14,18 +14,18 @@ RUN npm install
 COPY . ./
 
 #building the sources
-RUN npm run build-i18n
+RUN npm run build
 
 ##STAGE 1, serving production build (exposing default port 80)
 FROM nginx:stable-alpine
 
 #Serving the production build with nginx
-COPY --from=build-stage /app/dist/iot-webclient /usr/share/nginx/html
+COPY --from=build-stage /app/dist/leo-iot-showcase /usr/share/nginx/html
 
 #Applying custom nginx config
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-EXPOSE 80
+EXPOSE 70
 
 #Starting on localhost:80
 CMD ["nginx", "-g", "daemon off;"]
