@@ -1,9 +1,32 @@
-version: '3.7'
+version: "3.3"
 
 services:
-  leo-iot-web:
-    image: ghcr.io/leo-iot/leo-box-showcase/app
-    build: .
-    container_name: leo-box-showcase
+
+  traefik:
+    image: "traefik:v2.6"
+    container_name: "leo-box-showcase-traefik"
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.web.address=:80"
+      - "--certificatesresolvers.traefik.acme.tlschallenge=true"
+      - "--certificatesresolvers.traefik.acme.email=traefik@leo-iot.com"
+      - "--certificatesresolvers.traefik.acme.storage=/letsencrypt/acme.json"
     ports:
-      - "8080:80"
+      - "80:80"
+      - "433:433"
+    volumes:
+      - "./letsencrypt:/letsencrypt"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+  web:
+    image: "ghcr.io/leo-iot/leo-box-showcase/app"
+    build: .
+    container_name: "leo-box-showcase-web"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.web.rule=Host(`vm139.htl-leonding.ac.at`)"
+      - "traefik.http.routers.web.entrypoints=websecure"
+      - "traefik.http.routers.web.tls.certresolver=traefik"

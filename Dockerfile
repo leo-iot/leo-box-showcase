@@ -25,7 +25,7 @@ COPY --from=build-stage /app/dist/leo-box-showcase /usr/share/nginx/html
 #Applying custom nginx config
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-EXPOSE 70
+EXPOSE 80
 
 #Starting on localhost:80
 CMD ["nginx", "-g", "daemon off;"]
