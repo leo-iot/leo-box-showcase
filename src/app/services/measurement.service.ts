@@ -11,9 +11,11 @@ export class MeasurementService {
 
   private leoBoxMeasurement = new Map<string, Measurement>()
   private leoBoxMeasurementSubject = new Subject<Measurement[]>()
+  private topic: string = 'og/aula/+/state'
 
   constructor(private mqtt: MqttService) {
-    this.mqtt.observeRetained('values/111/+/state')
+    console.log(`observing ${this.topic}`)
+    this.mqtt.observeRetained(this.topic)
       .subscribe(message => {
         const [floor, room, sensor, state] = message.topic.split('/')
         const mqttValue: MqttValue = JSON.parse(message.payload.toString())
